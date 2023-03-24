@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import DaumPost from "./DaumPostcode";
 import PopupDom from "./PopupDom.jsx";
 import * as API from "../../../utils/api";
+import styled from "styled-components";
 
 function ChangeUserInfo() {
   const [users, setUsers] = useState([]);
@@ -13,6 +14,7 @@ function ChangeUserInfo() {
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const openPostcode = useCallback(() => {
     setIsPopupOpen(!isPopupOpen);
@@ -33,7 +35,11 @@ function ChangeUserInfo() {
 
   const validatePassword = () => {
     if (newPassword !== confirmPassword) {
-      console.log("password is not confirmed");
+      setError("password is not confirmed");
+      return false;
+    }
+    if (password === "") {
+      setError("please input password");
       return false;
     }
     return true;
@@ -56,8 +62,11 @@ function ChangeUserInfo() {
         console.log(res2.data);
         alert("update success");
       } catch (err) {
+        console.log("hello");
         alert(err);
       }
+    } else {
+      alert(error);
     }
   };
 
@@ -114,9 +123,9 @@ function ChangeUserInfo() {
         />
       </div>
       <div>
-        <button id="postcode" onClick={openPostcode}>
+        <PostButton id="postcode" onClick={openPostcode}>
           우편번호 검색
-        </button>
+        </PostButton>
         <div id="popupDom">
           {isPopupOpen && (
             <PopupDom>
@@ -139,11 +148,30 @@ function ChangeUserInfo() {
         />
       </div>
 
-      <button id="submit" onClick={handleSubmit}>
+      <EditButton id="submit" onClick={handleSubmit}>
         수정하기
-      </button>
+      </EditButton>
     </div>
   );
 }
+
+const PostButton = styled.button`
+  border-radius: 15px;
+  background-color: #3e4e34;
+  color: #ffffff;
+`;
+
+const EditButton = styled.button`
+  width: 80px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #3e4e34;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+`;
 
 export default ChangeUserInfo;

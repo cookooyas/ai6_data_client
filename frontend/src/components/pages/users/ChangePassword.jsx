@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import * as API from "../../../utils/api";
+import styled from "styled-components";
 
 function ChangePassword() {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
   const validatePassword = () => {
     if (newPassword !== confirmPassword) {
-      console.log("password is not confirmed");
+      setError("password is not confirmed");
+      return false;
+    }
+    if (password === "") {
+      setError("please input password");
       return false;
     }
     return true;
@@ -27,13 +33,15 @@ function ChangePassword() {
       } catch (err) {
         alert(err);
       }
+    } else {
+      alert(error);
     }
   };
 
   return (
     <div>
       <div>
-        기존 패스워드
+        기존 비밀번호
         <input
           id="password"
           type="password"
@@ -43,7 +51,7 @@ function ChangePassword() {
       </div>
 
       <div>
-        새 패스워드
+        새 비밀번호
         <input
           id="newPassword"
           type="password"
@@ -53,7 +61,7 @@ function ChangePassword() {
       </div>
 
       <div>
-        새 패스워드 확인
+        새 비밀번호 확인
         <input
           id="confirmPassword"
           type="password"
@@ -62,11 +70,24 @@ function ChangePassword() {
         />
       </div>
 
-      <button id="submit" onClick={handleSubmit}>
+      <EditButton id="submit" onClick={handleSubmit}>
         수정하기
-      </button>
+      </EditButton>
     </div>
   );
 }
+
+const EditButton = styled.button`
+  width: 80px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #3e4e34;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+`;
 
 export default ChangePassword;
