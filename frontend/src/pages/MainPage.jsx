@@ -17,7 +17,7 @@ function MainPage() {
   return (
     <Container>
       <ButtonWrapper>
-        <StyledButton onClick={onModal}>가정폭력 체크리스트 test</StyledButton>
+        <StyledButton onClick={onModal}>가정폭력 체크리스트</StyledButton>
         {modalIsOpen && (
           <CheckListModal open={modalIsOpen} onClose={offModal} />
         )}
